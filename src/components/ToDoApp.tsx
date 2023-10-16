@@ -1,5 +1,11 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
+interface ITODO {
+  id: number;
+  content: string;
+  state: ISTATE_OPTIONS;
+  // 작성자, 날짜...
+}
 interface ISTATE_OPTIONS {
   id: number;
   type: string;
@@ -26,14 +32,19 @@ const INPUT_TYPES: IINPUT_TYPE[] = [
 const ToDoApp = () => {
   const [inputType, setInputType] = useState<IINPUT_TYPE>(INPUT_TYPES[0]);
   const [value, setValue] = useState<string>("");
-  const [todoList, setTodoList] = useState<
-    {
-      id: number;
-      content: string;
-      state: ISTATE_OPTIONS;
-      // 작성자, 날짜...
-    }[]
-  >([]);
+  const [todoList, setTodoList] = useState<ITODO[]>([]);
+
+  // localStorage에 저장된 todolist load
+  const loadToDoList = () => {
+    const temp: ITODO[] = JSON.parse(localStorage.getItem("TODO") || "[]");
+
+    setTodoList(temp);
+  };
+
+  // localStorage 저장
+  const saveToDoList = (newList: ITODO[]) => {
+    localStorage.setItem("TODO", JSON.stringify(newList));
+  };
 
   // todo row content 수정
   const changeInputType = (index: number) => {
@@ -51,13 +62,16 @@ const ToDoApp = () => {
     newToDoList[index].state = STATE_OPTIONS[stateId];
 
     setTodoList(newToDoList);
+    saveToDoList(newToDoList);
   };
 
   // todo row 삭제
   const removeTodo = (index: number) => {
     const newToDoList = [...todoList];
     newToDoList.splice(index, 1);
+
     setTodoList(newToDoList);
+    saveToDoList(newToDoList);
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -66,9 +80,9 @@ const ToDoApp = () => {
     // todo value required (예외 처리)
     if (value.length === 0) return console.log("todo를 입력해 주세요");
 
+    const newToDoList = [...todoList];
     // todo row 추가
     if (inputType.type === "ADD") {
-      const newToDoList = [...todoList];
       const newToDoObj = {
         id: Date.now(),
         content: value,
@@ -80,7 +94,6 @@ const ToDoApp = () => {
 
     // todo row content 수정
     if (inputType.type === "MODIFY") {
-      const newToDoList = [...todoList];
       if (typeof inputType.modifyIndex === "number") {
         newToDoList[inputType.modifyIndex].content = value;
         setTodoList(newToDoList);
@@ -90,7 +103,13 @@ const ToDoApp = () => {
 
     // todo row 등록 > input 초기화
     setValue("");
+    saveToDoList(newToDoList);
   };
+
+  useEffect(() => {
+    loadToDoList();
+  }, []);
+
   return (
     <div>
       <h1>To Do List</h1>
