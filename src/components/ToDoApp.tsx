@@ -5,12 +5,26 @@ interface ISTATE_OPTIONS {
   type: string;
   label: string;
 }
+
+interface IINPUT_TYPE {
+  id: number;
+  type: string;
+  label: string;
+  modifyIndex?: number;
+}
+
 const STATE_OPTIONS: ISTATE_OPTIONS[] = [
   { id: 0, type: "ING", label: "작업중" },
   { id: 1, type: "DONE", label: "완료" },
 ];
 
+const INPUT_TYPES: IINPUT_TYPE[] = [
+  { id: 0, type: "ADD", label: "추가" },
+  { id: 1, type: "MODIFY", label: "수정", modifyIndex: -1 },
+];
+
 const ToDoApp = () => {
+  const [inputType, setInputType] = useState<IINPUT_TYPE>(INPUT_TYPES[0]);
   const [value, setValue] = useState<string>("");
   const [todoList, setTodoList] = useState<
     {
@@ -20,6 +34,14 @@ const ToDoApp = () => {
       // 작성자, 날짜...
     }[]
   >([]);
+
+  // todo row content 수정
+  const changeInputType = (index: number) => {
+    const newInputType = { ...INPUT_TYPES[1], modifyIndex: index };
+
+    setInputType(newInputType);
+    setValue(todoList[index].content);
+  };
 
   // todo row 상태변경(완료 <=> 작업중)
   const changeStateToDo = (index: number) => {
@@ -45,14 +67,26 @@ const ToDoApp = () => {
     if (value.length === 0) return console.log("todo를 입력해 주세요");
 
     // todo row 추가
-    setTodoList((prev) => [
-      ...prev,
-      {
+    if (inputType.type === "ADD") {
+      const newToDoList = [...todoList];
+      const newToDoObj = {
         id: Date.now(),
         content: value,
         state: STATE_OPTIONS[0],
-      },
-    ]);
+      };
+      newToDoList.push(newToDoObj);
+      setTodoList(newToDoList);
+    }
+
+    // todo row content 수정
+    if (inputType.type === "MODIFY") {
+      const newToDoList = [...todoList];
+      if (typeof inputType.modifyIndex === "number") {
+        newToDoList[inputType.modifyIndex].content = value;
+        setTodoList(newToDoList);
+      }
+      setInputType(INPUT_TYPES[0]);
+    }
 
     // todo row 등록 > input 초기화
     setValue("");
@@ -71,7 +105,7 @@ const ToDoApp = () => {
             onChange={(e) => setValue(e.currentTarget.value)}
             value={value}
           />
-          <button type="submit">추가</button>
+          <button type="submit">{inputType.label}</button>
         </form>
       </div>
 
@@ -80,7 +114,7 @@ const ToDoApp = () => {
         {todoList.map((todo, index) => (
           <li key={index}>
             <span>{todo.content}</span>
-            <button>수정</button>
+            <button onClick={() => changeInputType(index)}>수정</button>
             <button onClick={() => changeStateToDo(index)}>{todo.state.label}</button>
             <button onClick={() => removeTodo(index)}>삭제</button>
           </li>
