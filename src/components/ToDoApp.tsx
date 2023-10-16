@@ -1,33 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 
-interface ITODO {
-  id: number;
-  content: string;
-  state: ISTATE_OPTIONS;
-  // 작성자, 날짜...
-}
-interface ISTATE_OPTIONS {
-  id: number;
-  type: string;
-  label: string;
-}
-
-interface IINPUT_TYPE {
-  id: number;
-  type: string;
-  label: string;
-  modifyIndex?: number;
-}
-
-const STATE_OPTIONS: ISTATE_OPTIONS[] = [
-  { id: 0, type: "ING", label: "작업중" },
-  { id: 1, type: "DONE", label: "완료" },
-];
-
-const INPUT_TYPES: IINPUT_TYPE[] = [
-  { id: 0, type: "ADD", label: "추가" },
-  { id: 1, type: "MODIFY", label: "수정", modifyIndex: -1 },
-];
+import { IINPUT_TYPE, ITODO } from "./types";
+import { INPUT_TYPES, STATE_OPTIONS } from "./const";
 
 const ToDoApp = () => {
   const [inputType, setInputType] = useState<IINPUT_TYPE>(INPUT_TYPES[0]);
@@ -129,16 +103,18 @@ const ToDoApp = () => {
       </div>
 
       {/* list component */}
-      <ul>
-        {todoList.map((todo, index) => (
-          <li key={index}>
-            <span>{todo.content}</span>
-            <button onClick={() => changeInputType(index)}>수정</button>
-            <button onClick={() => changeStateToDo(index)}>{todo.state.label}</button>
-            <button onClick={() => removeTodo(index)}>삭제</button>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <ul>
+          {todoList.map((todo, index) => (
+            <li key={index}>
+              <span>{todo.content}</span>
+              <button onClick={() => changeInputType(index)}>수정</button>
+              <button onClick={() => changeStateToDo(index)}>{todo.state.label}</button>
+              <button onClick={() => removeTodo(index)}>삭제</button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
