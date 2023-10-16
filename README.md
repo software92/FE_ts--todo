@@ -6,7 +6,7 @@
 
 - [x] todo row 추가
 - [x] todo row 제거
-- [ ] todo row 상태 변경
+- [x] todo row 상태 변경
 - [ ] todo row 수정
 
 - [ ] style 적용

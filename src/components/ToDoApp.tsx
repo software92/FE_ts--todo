@@ -1,23 +1,41 @@
 import { FormEvent, useState } from "react";
 
+interface ISTATE_OPTIONS {
+  id: number;
+  type: string;
+  label: string;
+}
+const STATE_OPTIONS: ISTATE_OPTIONS[] = [
+  { id: 0, type: "ING", label: "작업중" },
+  { id: 1, type: "DONE", label: "완료" },
+];
+
 const ToDoApp = () => {
   const [value, setValue] = useState<string>("");
   const [todoList, setTodoList] = useState<
     {
       id: number;
       content: string;
-      state: "ING" | "DONE";
+      state: ISTATE_OPTIONS;
       // 작성자, 날짜...
     }[]
   >([]);
 
+  // todo row 상태변경(완료 <=> 작업중)
+  const changeStateToDo = (index: number) => {
+    const newToDoList = [...todoList];
+
+    const stateId = (newToDoList[index].state.id + 1) % STATE_OPTIONS.length;
+    newToDoList[index].state = STATE_OPTIONS[stateId];
+
+    setTodoList(newToDoList);
+  };
+
+  // todo row 삭제
   const removeTodo = (index: number) => {
-    // todo row 삭제
-    setTodoList((prev) => {
-      const newToDoList = [...prev];
-      newToDoList.splice(index, 1);
-      return newToDoList;
-    });
+    const newToDoList = [...todoList];
+    newToDoList.splice(index, 1);
+    setTodoList(newToDoList);
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -32,7 +50,7 @@ const ToDoApp = () => {
       {
         id: Date.now(),
         content: value,
-        state: "ING",
+        state: STATE_OPTIONS[0],
       },
     ]);
 
@@ -63,7 +81,7 @@ const ToDoApp = () => {
           <li key={index}>
             <span>{todo.content}</span>
             <button>수정</button>
-            <button>완료</button>
+            <button onClick={() => changeStateToDo(index)}>{todo.state.label}</button>
             <button onClick={() => removeTodo(index)}>삭제</button>
           </li>
         ))}
