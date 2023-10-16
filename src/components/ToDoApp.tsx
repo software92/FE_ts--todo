@@ -2,10 +2,30 @@ import { FormEvent, useState } from "react";
 
 const ToDoApp = () => {
   const [value, setValue] = useState<string>("");
+  const [todoList, setTodoList] = useState<
+    {
+      id: number;
+      content: string;
+      state: "ING" | "DONE";
+      // 작성자, 날짜...
+    }[]
+  >([]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log("할 일 추가", value);
+
+    // todolist 추가
+    setTodoList((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        content: value,
+        state: "ING",
+      },
+    ]);
+
+    // todo 등록 > input 초기화
+    setValue("");
   };
   return (
     <div>
@@ -26,18 +46,16 @@ const ToDoApp = () => {
       </div>
 
       {/* list component */}
-      <div>
-        <ul>
-          <li>
-            <span>아침</span>
+      <ul>
+        {todoList.map((todo, index) => (
+          <li key={index}>
+            <span>{todo.content}</span>
             <button>수정</button>
             <button>완료</button>
             <button>삭제</button>
           </li>
-          <li>점심</li>
-          <li>저녁</li>
-        </ul>
-      </div>
+        ))}
+      </ul>
     </div>
   );
 };
