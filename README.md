@@ -7,7 +7,8 @@
 - [x] todo row 추가
 - [x] todo row 제거
 - [x] todo row 상태 변경
-- [ ] todo row 수정
+- [x] todo row 수정
+- [ ] todo list 저장 (LocalStorage)
 
 - [ ] style 적용
 - [ ] 컴포넌트 분리
