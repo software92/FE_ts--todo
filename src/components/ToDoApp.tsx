@@ -23,6 +23,9 @@ const ToDoApp = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
+    // todo value required (예외 처리)
+    if (value.length === 0) return console.log("todo를 입력해 주세요");
+
     // todo row 추가
     setTodoList((prev) => [
       ...prev,
