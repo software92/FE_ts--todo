@@ -11,10 +11,19 @@ const ToDoApp = () => {
     }[]
   >([]);
 
+  const removeTodo = (index: number) => {
+    // todo row 삭제
+    setTodoList((prev) => {
+      const newToDoList = [...prev];
+      newToDoList.splice(index, 1);
+      return newToDoList;
+    });
+  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    // todolist 추가
+    // todo row 추가
     setTodoList((prev) => [
       ...prev,
       {
@@ -24,7 +33,7 @@ const ToDoApp = () => {
       },
     ]);
 
-    // todo 등록 > input 초기화
+    // todo row 등록 > input 초기화
     setValue("");
   };
   return (
@@ -52,7 +61,7 @@ const ToDoApp = () => {
             <span>{todo.content}</span>
             <button>수정</button>
             <button>완료</button>
-            <button>삭제</button>
+            <button onClick={() => removeTodo(index)}>삭제</button>
           </li>
         ))}
       </ul>
