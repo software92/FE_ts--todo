@@ -1,11 +1,11 @@
 import { FormEvent, useEffect, useState } from "react";
 
 import { IINPUT_TYPE, ITODO } from "./types";
-import { INPUT_TYPES, STATE_OPTIONS } from "./const";
 import { Styles } from "./styles";
+import { ToDoConst } from "./const";
 
 const ToDoApp = () => {
-  const [inputType, setInputType] = useState<IINPUT_TYPE>(INPUT_TYPES[0]);
+  const [inputType, setInputType] = useState<IINPUT_TYPE>(ToDoConst.INPUT_TYPES[0]);
   const [value, setValue] = useState<string>("");
   const [todoList, setTodoList] = useState<ITODO[]>([]);
 
@@ -23,7 +23,7 @@ const ToDoApp = () => {
 
   // todo row content 수정
   const changeInputType = (index: number) => {
-    const newInputType = { ...INPUT_TYPES[1], modifyIndex: index };
+    const newInputType = { ...ToDoConst.INPUT_TYPES[1], modifyIndex: index };
 
     setInputType(newInputType);
     setValue(todoList[index].content);
@@ -33,8 +33,8 @@ const ToDoApp = () => {
   const changeStateToDo = (index: number) => {
     const newToDoList = [...todoList];
 
-    const stateId = (newToDoList[index].state.id + 1) % STATE_OPTIONS.length;
-    newToDoList[index].state = STATE_OPTIONS[stateId];
+    const stateId = (newToDoList[index].state.id + 1) % ToDoConst.STATE_OPTIONS.length;
+    newToDoList[index].state = ToDoConst.STATE_OPTIONS[stateId];
 
     setTodoList(newToDoList);
     saveToDoList(newToDoList);
@@ -61,7 +61,7 @@ const ToDoApp = () => {
       const newToDoObj = {
         id: Date.now(),
         content: value,
-        state: STATE_OPTIONS[0],
+        state: ToDoConst.STATE_OPTIONS[0],
       };
       newToDoList.push(newToDoObj);
       setTodoList(newToDoList);
@@ -73,7 +73,7 @@ const ToDoApp = () => {
         newToDoList[inputType.modifyIndex].content = value;
         setTodoList(newToDoList);
       }
-      setInputType(INPUT_TYPES[0]);
+      setInputType(ToDoConst.INPUT_TYPES[0]);
     }
 
     // todo row 등록 > input 초기화
