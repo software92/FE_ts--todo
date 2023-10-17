@@ -15,3 +15,7 @@
 - [x] 컴포넌트 분리
   - [x] ui, logic을 분리한 컴포넌트 생성
 - [x] 타입 파일 분리(+ 상수 파일)
+
+### SCREENS
+
+![Alt text](./src/assets/images/image.png)
