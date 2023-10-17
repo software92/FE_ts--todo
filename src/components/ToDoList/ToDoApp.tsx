@@ -1,7 +1,69 @@
 import { FormEvent, useEffect, useState } from "react";
+import styled from "styled-components";
 
 import { IINPUT_TYPE, ITODO } from "./types";
 import { INPUT_TYPES, STATE_OPTIONS } from "./const";
+
+// form reset css
+import "../../assets/reset.css";
+
+const Wrapper = styled.div`
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+`;
+const Title = styled.h1`
+  text-transform: uppercase;
+`;
+const FormWrapper = styled.div`
+  width: 100%;
+  text-align: center;
+  & form {
+    display: flex;
+    justify-content: space-between;
+  }
+  & input {
+    width: 80%;
+    padding: 0 5px;
+    border-bottom: 1px solid black;
+  }
+  & button {
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+`;
+
+const ListWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  & ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 5px;
+  }
+  & li {
+    list-style: none;
+    display: grid;
+    grid-template-columns: auto 50px 50px 50px;
+    gap: 5px;
+    & span {
+      margin-right: 5px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    & button {
+      border: 1px solid black;
+      border-radius: 5px;
+      padding: 10px 5px;
+      word-break: keep-all;
+      cursor: pointer;
+    }
+  }
+`;
 
 const ToDoApp = () => {
   const [inputType, setInputType] = useState<IINPUT_TYPE>(INPUT_TYPES[0]);
@@ -85,12 +147,11 @@ const ToDoApp = () => {
   }, []);
 
   return (
-    <div>
-      <h1>To Do List</h1>
+    <Wrapper>
+      <Title>To Do List</Title>
 
       {/* form component */}
-      <div>
-        <h2>Form</h2>
+      <FormWrapper>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -100,10 +161,10 @@ const ToDoApp = () => {
           />
           <button type="submit">{inputType.label}</button>
         </form>
-      </div>
+      </FormWrapper>
 
       {/* list component */}
-      <div>
+      <ListWrapper>
         <ul>
           {todoList.map((todo, index) => (
             <li key={index}>
@@ -114,8 +175,8 @@ const ToDoApp = () => {
             </li>
           ))}
         </ul>
-      </div>
-    </div>
+      </ListWrapper>
+    </Wrapper>
   );
 };
 
