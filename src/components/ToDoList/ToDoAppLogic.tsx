@@ -1,12 +1,11 @@
 import { FormEvent, useEffect, useState } from "react";
 
-import { IINPUT_TYPE, ITODO } from "./types";
-import { Styles } from "./styles";
+import ToDoAppUI from "./ToDoAppUI";
 import { ToDoConst } from "./const";
-import ToDoForm from "./ToDoForm";
-import ToDoList from "./ToDoList";
+import { IINPUT_TYPE, ITODO } from "./types";
 
-const ToDoApp = () => {
+// >> ToDoApp
+const ToDoAppLogic = () => {
   const [inputType, setInputType] = useState<IINPUT_TYPE>(ToDoConst.INPUT_TYPES[0]);
   const [value, setValue] = useState<string>("");
   const [todoList, setTodoList] = useState<ITODO[]>([]);
@@ -88,24 +87,17 @@ const ToDoApp = () => {
   }, []);
 
   return (
-    <Styles.Wrapper>
-      <Styles.Title>To Do List</Styles.Title>
-
-      <ToDoForm
-        handleSubmit={handleSubmit}
-        setValue={setValue}
-        value={value}
-        inputType={inputType}
-      />
-
-      <ToDoList
-        todoList={todoList}
-        changeInputType={changeInputType}
-        changeStateToDo={changeStateToDo}
-        removeTodo={removeTodo}
-      />
-    </Styles.Wrapper>
+    <ToDoAppUI
+      handleSubmit={handleSubmit}
+      setValue={setValue}
+      value={value}
+      inputType={inputType}
+      todoList={todoList}
+      changeInputType={changeInputType}
+      changeStateToDo={changeStateToDo}
+      removeTodo={removeTodo}
+    />
   );
 };
 
-export default ToDoApp;
+export default ToDoAppLogic;
