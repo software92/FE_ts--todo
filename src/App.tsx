@@ -1,4 +1,4 @@
-import ToDoApp from "./components/ToDoList/ToDoApp";
+import { ToDoApp } from "./components/ToDoList";
 
 // form reset css
 import "./assets/reset.css";
