@@ -1,14 +1,6 @@
-import { FormEvent } from "react";
-
 import { Styles } from "./styles";
-import { IINPUT_TYPE } from "./types";
+import { IToDoForm } from "./types";
 
-interface IToDoForm {
-  handleSubmit: (e: FormEvent) => void;
-  setValue: any;
-  value: string;
-  inputType: IINPUT_TYPE;
-}
 const ToDoForm = ({ handleSubmit, setValue, value, inputType }: IToDoForm) => {
   return (
     <Styles.FormWrapper>

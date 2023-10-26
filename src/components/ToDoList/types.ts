@@ -1,3 +1,5 @@
+import { FormEvent } from "react";
+
 type STATE_TYPE = "ING" | "DONE";
 type STATE_LABEL = "작업중" | "완료";
 
@@ -11,6 +13,19 @@ export interface ISTATE_OPTIONS {
   label: STATE_LABEL;
 }
 
+export interface IToDoForm {
+  handleSubmit: (e: FormEvent) => void;
+  setValue: any;
+  value: string;
+  inputType: IINPUT_TYPE;
+}
+
+export interface IToDoList {
+  todoList: ITODO[];
+  changeInputType: (index: number) => void;
+  changeStateToDo: (index: number) => void;
+  removeTodo: (index: number) => void;
+}
 export interface ITODO {
   id: number;
   content: string;
@@ -25,4 +40,15 @@ export interface IINPUT_TYPE {
   label: INPUT_LABEL;
   // 수정 상태 일 때, 수정하려는 todo index
   modifyIndex?: number;
+}
+
+export interface IToDoAppUI {
+  handleSubmit: (e: FormEvent) => void;
+  setValue: any;
+  value: string;
+  inputType: IINPUT_TYPE;
+  todoList: ITODO[];
+  changeInputType: (index: number) => void;
+  changeStateToDo: (index: number) => void;
+  removeTodo: (index: number) => void;
 }

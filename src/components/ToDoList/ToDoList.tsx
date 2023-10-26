@@ -1,12 +1,6 @@
 import { Styles } from "./styles";
-import { ITODO } from "./types";
+import { IToDoList } from "./types";
 
-interface IToDoList {
-  todoList: ITODO[];
-  changeInputType: (index: number) => void;
-  changeStateToDo: (index: number) => void;
-  removeTodo: (index: number) => void;
-}
 const ToDoList = ({ todoList, changeInputType, changeStateToDo, removeTodo }: IToDoList) => {
   return (
     <Styles.ListWrapper>
